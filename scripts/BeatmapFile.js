@@ -18,7 +18,7 @@ class BeatmapFile {
     }
 
     async getOsuFile() {
-        const rawOsuFile = (await axios.get(`https://tryz.vercel.app/api/b/${this.mapId}/osu`)).data;
+        const rawOsuFile = (await axios.get(`https://catboy.best/osu/${this.mapId}?raw=1`)).data;
         this.osuFile = rawOsuFile;
     }
 
@@ -34,7 +34,7 @@ class BeatmapFile {
     }
 
     async getOsz() {
-        const mapsetData = (await axios.get(`https://tryz.vercel.app/api/b/${this.mapId}`)).data;
+        const mapsetData = (await axios.get(`https://catboy.best/api/v2/b/${this.mapId}`)).data.set;
         this.artist = mapsetData.artist_unicode;
         this.title = mapsetData.title_unicode;
         this.diff = mapsetData.beatmaps.filter((diff) => diff.id === parseInt(this.mapId))[0].version;
@@ -58,11 +58,11 @@ class BeatmapFile {
             // baseURL: `https://chimu.moe/d/`,
             // baseURL: `https://subapi.nerinyan.moe/d/`,
             // baseURL: `https://proxy.nerinyan.moe/d/`,
-            baseURL: `https://ko2.nerinyan.moe/d/`,
+            baseURL: `https://catboy.best/d/`,
             // params: { nv: 1, nh: 0, nsb: 1 },
         });
         const mapFileBlob = (
-            await requestClient.get(`${setId}?server=auto`, {
+            await requestClient.get(`${setId}`, {
                 responseType: "blob",
                 onDownloadProgress: (progressEvent) => {
                     document.querySelector("#loadingText").innerText = `Downloading map: ${(progressEvent.progress * 100).toFixed(2)}%`;
